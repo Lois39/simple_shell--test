@@ -6,4 +6,6 @@
 #include <unistd.h>
 #include <string.h>
 
+void executeCommand(char **args);
+
 #endif

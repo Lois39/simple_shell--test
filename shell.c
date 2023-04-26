@@ -2,11 +2,13 @@
 
 /**
  * main - Display a prompt and wait for the user to type a command
+ * @ac: argument count
+ * @av: pointer to array of strings
  *
  * Return: 0
  */
 
-int main(int ac, char *argv[])
+int main(int ac, char *av[])
 {
 	char *temp = NULL, *temp_copy = NULL, *token;
 	size_t bytes = 10;
@@ -18,17 +20,14 @@ int main(int ac, char *argv[])
 
 	temp = malloc(sizeof(char) * bytes);
 
-        if (temp == NULL)
-        {
-                return (0);
-        }
+	if (temp == NULL)
+		return (0);
 
 	while (1)
 	{
 		write(1, "shell$ ", 7);
-
 		n_read = getline(&temp, &bytes, stdin);
-
+		
 		if (n_read == -1)
 		{
 			printf("EXIT SHELL...\n");
@@ -36,15 +35,13 @@ int main(int ac, char *argv[])
 		}
 
 		temp_copy = malloc(sizeof(char) * n_read);
-		
 		if (temp_copy == NULL)
 		{
-                	perror("memory allocation error");
-                	return (-1);
+			perror("memory allocation error");
+			return (-1);
 		}
 
 		strcpy(temp_copy, temp);
-
 		token = strtok(temp, delim);
 
 		while (!token)
@@ -52,28 +49,23 @@ int main(int ac, char *argv[])
 			token = strtok(NULL, delim);
 			ntokens++;
 		}
-
-		argv = malloc(sizeof(char *) * ntokens);
-
+		
+		av = malloc(sizeof(char *) * ntokens);
 		token = strtok(temp_copy, delim);
 
 		for (i = 0; token != NULL; i++)
 		{
-			argv[i] = malloc(sizeof(char) * strlen(token));
-			strcpy(argv[i], token);
-
+			av[i] = malloc(sizeof(char) * strlen(token));
+			strcpy(av[i], token);
 			token = strtok(NULL, delim);
 		}
 
-		argv[i] = NULL;
-
-		write(1, temp, bytes);
-
-		executeCommand(argv);
-
+		av[i] = NULL;
+		
+		executeCommand(av);
 	}
 
-	free(argv);
+	free(av);
 	free(temp_copy);
 	free(temp);
 
