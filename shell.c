@@ -25,7 +25,7 @@ int main(int ac, char *av[])
 
 	while (1)
 	{
-		write(1, "shell$ ", 7);
+		printf("shell$ ");
 		n_read = getline(&temp, &bytes, stdin);
 		
 		if (n_read == -1)
