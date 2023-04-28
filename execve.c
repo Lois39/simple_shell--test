@@ -7,20 +7,20 @@
 
 void executeCommand(char **args)
 {
-	char *path = NULL, *actual_path = NULL;
+	char *command = NULL, *actual_command = NULL;
 
 	if (args)
 	{
 		/* get the command */
-		path = args[0];
+		command = args[0];
 
-		actual_path = get_path(path);
+		actual_command = get_location(command);
 
 		/* execute the command with execve */
-		if (execve(actual_path, args, NULL) == -1)
+		if (execve(actual_command, args, NULL) == -1)
 		{
 			perror("Error:");
-		};
+		}
 
 	}
 

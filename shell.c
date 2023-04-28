@@ -10,71 +10,64 @@
 
 int main(int ac, char *av[])
 {
-char *temp = NULL, *temp_copy = NULL, *token;
-size_t bytes = 10;
-ssize_t n_read;
-const char *delim = " \n";
-int i, ntokens = 0;
+	char *temp = NULL, *temp_copy = NULL, *token;
+	size_t bytes = 10;
+	ssize_t n_read;
+	const char *delim = " \n";
+	int i, ntokens = 0;
 
-(void)ac;
+	(void)ac;
 
-temp = malloc(sizeof(char) * bytes);
+	temp = malloc(sizeof(char) * bytes);
 
-if (temp == NULL)
-return (0);
+	if (temp == NULL)
+		return (0);
 
-while (1)
-{
-write(1, "shell$ ", 7);
-n_read = getline(&temp, &bytes, stdin);
+	while (1)
+	{
+		write(1, "shell$ ", 7);
+		n_read = getline(&temp, &bytes, stdin);
 
-if (n_read == -1)
-{
-write(STDOUT_FILENO, "EXIT SHELL...\n", 14);
-exit(EXIT_SUCCESS);
+		if (n_read == -1)
+		{
+			write(STDOUT_FILENO, "EXIT SHELL...\n", 14);
+			exit(EXIT_SUCCESS);
+		}
 
-temp_copy = malloc(sizeof(char) * n_read);
-if (temp_copy == NULL)
-{
-perror("memory allocation error");
-return (-1);
-}
+		temp_copy = malloc(sizeof(char) * n_read);
+		if (temp_copy == NULL)
+		{
+			perror("memory allocation error");
+			return (-1);
+		}
 
-strcpy(temp_copy, temp);
-token = strtok(temp, delim);
+		strcpy(temp_copy, temp);
+		token = strtok(temp, delim);
 
-while (!token)
-{
-token = strtok(NULL, delim);
-ntokens++;
-}
+		while (!token)
+		{
+			token = strtok(NULL, delim);
+			ntokens++;
+		}
 
-av = malloc(sizeof(char *) * ntokens);
-token = strtok(temp_copy, delim);
+		av = malloc(sizeof(char *) * ntokens);
+		token = strtok(temp_copy, delim);
 
-for (i = 0; token != NULL; i++)
-{
-av[i] = malloc(sizeof(char) * strlen(token));
-strcpy(av[i], token);
-token = strtok(NULL, delim);
-}
+		for (i = 0; token != NULL; i++)
+		{
+			av[i] = malloc(sizeof(char) * strlen(token));
+			strcpy(av[i], token);
+			token = strtok(NULL, delim);
+		}
 
-av[i] = NULL;
+		av[i] = NULL;
 
-/* Check for exit command */
-if (strcmp(av[0], "exit") == 0)
-{
-write(STDOUT_FILENO, "EXIT SHELL...\n", 14);
-exit(EXIT_SUCCESS);
-}
+		executeCommand(av);
+	}
 
-executeCommand(av);
-}
+	free(temp_copy);
+	free(temp);
 
-free(av);
-free(temp_copy);
-free(temp);
+	return (0);
 
-return (0);
-}
 }

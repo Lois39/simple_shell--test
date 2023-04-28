@@ -9,6 +9,6 @@
 #include <sys/stat.h>
 
 void executeCommand(char **args);
-char *get_path(char *path);
+char *get_location(char *command);
 
 #endif
