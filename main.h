@@ -6,4 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 
+void executeCommand(char **args);
+char *get_location(char *command);
+
 #endif

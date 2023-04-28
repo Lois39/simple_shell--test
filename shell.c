@@ -72,8 +72,6 @@ int main(int ac, char *argv[])
 		executeCommand(argv);
 
 	}
-
-	free(argv);
 	free(temp_copy);
 	free(temp);
 
