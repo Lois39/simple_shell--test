@@ -67,8 +67,6 @@ int main(int ac, char *argv[])
 
 		argv[i] = NULL;
 
-		write(1, temp, bytes);
-
 		executeCommand(argv);
 
 	}

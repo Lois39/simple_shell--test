@@ -3,7 +3,7 @@
 char *get_location(char *command){
     char *path, *path_copy, *path_token, *file_path;
     int command_length, directory_length;
-    struct stat *buffer;
+    struct stat buffer;
     
     path = getenv("PATH");
 
